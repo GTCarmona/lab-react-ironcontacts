@@ -43,16 +43,23 @@ class App extends Component {
       contacts: sortedContact
     })
 }
+    deleteContact(indexToRemove) {
+      let newContacts = [...this.state.contacts]
+      newContacts.splice(indexToRemove, 1)
+      this.setState({
+        contacts: newContacts
+      })
 
+}
 
 
   render() {
     return (
       <div className="App">
       <h1>IronContacts</h1>
-      <button onClick = {this.AddContact}> Add Random Contact</button>
-      <button onClick = {this.SortContact}>Sort by name</button>
-      <button onClick = {this.SortPopularity}> Sort by popularity</button>
+      <button className="btn" onClick = {this.AddContact}> Add Random Contact</button>
+      <button className="btn" onClick = {this.SortContact}>Sort by name</button>
+      <button className="btn" onClick = {this.SortPopularity}> Sort by popularity</button>
 
 
       <table>
@@ -61,6 +68,7 @@ class App extends Component {
               <th>Picture</th>
               <th>Name</th>
               <th>Popularity</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -69,6 +77,7 @@ class App extends Component {
                 <td><img src={contact.pictureUrl} alt="" height="60" /></td>
                 <td>{contact.name}</td>
                 <td>{contact.popularity.toFixed(2)}</td>
+                <td><button onClick={() => this.deleteContact(i)}>Delete</button></td>
               </tr>
             ))}
           </tbody>
