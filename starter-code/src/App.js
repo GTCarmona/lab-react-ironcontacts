@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import jsonContacts from './contacts'
+import jsonContacts from './contacts';
+import {Table, Button, Container} from 'react-bootstrap';
 
 
 class App extends Component {
@@ -13,7 +14,8 @@ class App extends Component {
     }
     this.AddContact = this.AddContact.bind(this)
     this.SortContact = this.SortContact.bind(this)
-    this.SortPopularity = this.SortPopularity.bind(this)
+    this.sortPopularity = this.sortPopularity.bind(this)
+
 
   }
     AddContact() {
@@ -24,6 +26,7 @@ class App extends Component {
         contacts: [...this.state.contacts, randomContact]
       })
     }
+
     SortContact() {
       let newContacts = [...this.state.contacts].sort((a,b )=> {
         if(a.name < b.name) return -1
@@ -33,7 +36,8 @@ class App extends Component {
         contacts: newContacts
       })
   }
-  SortPopularity() {
+
+  sortPopularity() {
     let sortedContact = [...this.state.contacts].sort((a,b) => {
       if(a.popularity < b.popularity) return -1
       else return 1
@@ -43,6 +47,7 @@ class App extends Component {
       contacts: sortedContact
     })
 }
+
     deleteContact(indexToRemove) {
       let newContacts = [...this.state.contacts]
       newContacts.splice(indexToRemove, 1)
@@ -55,14 +60,14 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <Container className="App">
       <h1>IronContacts</h1>
-      <button className="btn" onClick = {this.AddContact}> Add Random Contact</button>
-      <button className="btn" onClick = {this.SortContact}>Sort by name</button>
-      <button className="btn" onClick = {this.SortPopularity}> Sort by popularity</button>
+      <Button className="mr-4 my-3" onClick = {this.AddContact}> Add Random Contact</Button>
+      <Button className="mr-4 my-3" onClick = {this.SortContact}>Sort by name</Button>
+      <Button className="mr-4 my-3" onClick = {this.sortPopularity}> Sort by popularity</Button>
 
 
-      <table>
+      <Table striped bordered hover size='sm'>
           <thead>
             <tr>
               <th>Picture</th>
@@ -70,21 +75,21 @@ class App extends Component {
               <th>Popularity</th>
               <th>Action</th>
             </tr>
-          </thead>
+          </thead> 
           <tbody>
           {this.state.contacts.map((contact,i) => (
-              <tr>
+              <tr key={contact.name}>
                 <td><img src={contact.pictureUrl} alt="" height="60" /></td>
                 <td>{contact.name}</td>
                 <td>{contact.popularity.toFixed(2)}</td>
-                <td><button onClick={() => this.deleteContact(i)}>Delete</button></td>
+                <td><Button onClick={() => this.deleteContact(i)}>Delete</Button></td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       
    
-      </div>
+      </Container>
     );
   }
 }
